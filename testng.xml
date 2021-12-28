@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="WTIA REST Assured Tests">
+    <test name="All">
+        <classes>
+            <class name="com.wtia.tests.PositionsTest"/>
+            <class name="com.wtia.tests.TleTest"/>
+        </classes>
+    </test>
+</suite>
