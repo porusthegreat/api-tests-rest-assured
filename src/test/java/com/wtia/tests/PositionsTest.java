@@ -74,7 +74,7 @@ public class PositionsTest extends BaseTest {
         List<String> timeStamps = Arrays.asList("1640016071", "1640016071");
         PositionsRequest positionsRequest = new PositionsRequest();
         List<PositionsResponse> positionsResponses = positionsRequest.getSatellitePositionsResponse(version, satellite, timeStamps, null);
-        verifyPositionsResponseWithSatelliteDataForDuplicateTimeStamps(positionsResponses, new HashSet<>(timeStamps));
+        verifyPositionsResponseWithSatelliteDataForDuplicateTimeStamps(positionsResponses, new HashSet<String>(timeStamps));
     }
 
     private void verifyPositionsResponseWithSatelliteDataForDuplicateTimeStamps(List<PositionsResponse> positionsResponses, Set<String> timestamps) {
