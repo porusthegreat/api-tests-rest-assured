@@ -13,6 +13,12 @@
   
 * PositionsTest.java#70 :: Providing same timestamp multiple times, returns multiple objects for each timestamp.
     * Improvement: get unique timestamps from request and return response for only those time stamps. Duplicate objects need not be returned
+  
+* Passing invalid Satellite ID returns valid response with wrong satellite ID of ISS, where first set of string matches the ISS ID in **TLE** request
+    * Validation for valid satellite ID can be added
+  Ex: 1. https://api.wheretheiss.at/v1/satellites/25544X255443/tles
+      2. https://api.wheretheiss.at/v1/satellites/25544X255443/positions?timestamps=1436029892,1436029892,1436029892&units=miles
+  
 
 **Documentation Improvement:**
 
