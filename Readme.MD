@@ -16,5 +16,5 @@
 
 **Documentation Improvement:**
 
-Would prefer swagger as documentation will be auto-generated document from an API definition
-Also it allows us to try the API right in the documentation page instead of copying the request to postman
+* Would prefer swagger as documentation will be auto-generated document from an API definition* 
+* Also it allows us to try the API right in the documentation page instead of copying the request to postman
