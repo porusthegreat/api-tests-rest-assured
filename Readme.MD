@@ -5,3 +5,11 @@ Steps to Run:
 4. Clone the repo using `git clone git@github.com:purush087/wtiaTests.git`
 5. Run command `mvn clean install`
 6. Run command `mvn clean test`
+
+#*Issues Faced*:
+* PositionsTest.java#36 :: Position Response returns valid response with Units as miles, when an invalid unit provided with units in response as miles.
+    * API Improvement: Error Handling. The API should throw 400 error with message "Invalid Unit Provided".
+    * Documentation Improvement: If no other units are handled, mention invalid unit will be defaulted to Kilometers
+  
+* Providing same timestamp multiple times, returns multiple objects for each timestamp.
+    * Improvement: get unique timestamps from request and return response for only those time stamps. Duplicate objects need not be returned
