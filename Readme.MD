@@ -6,8 +6,8 @@
 5. Run command `mvn clean install`
 6. Run command `mvn clean test`
 
-**Issues Faced**:
-* PositionsTest.java#36 :: Position Response returns valid response with Units as miles, when an invalid unit provided with units in response as miles.
+**Issues Faced**: (Convention used: FileName#LineNumber)
+* PositionsTest.java#34 :: Position Response returns valid response with Units as miles, when an invalid unit provided with units in response as miles.
     * API Improvement: Error Handling. The API should throw 400 error with message "Invalid Unit Provided".
     * Documentation Improvement: If no other units are handled, mention invalid unit will be defaulted to Kilometers
   
@@ -16,5 +16,5 @@
 
 **Documentation Improvement:**
 
-* Would prefer swagger as documentation will be auto-generated document from an API definition* 
+* Would prefer swagger as documentation will be auto-generated document from an API definition
 * Also it allows us to try the API right in the documentation page instead of copying the request to postman
