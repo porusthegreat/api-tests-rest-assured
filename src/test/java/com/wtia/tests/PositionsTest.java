@@ -11,9 +11,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public class PositionsTest extends BaseTest {
@@ -33,7 +31,7 @@ public class PositionsTest extends BaseTest {
         return new Object[][]{
                 new Object[]{new RequestData(12345, Arrays.asList("1640016071", "1640016075"), 404, "satellite not found", null)},
                 new Object[]{new RequestData(25544, Arrays.asList("1640016071invalid", "1640016071"), 400, "invalid timestamp in list: 1640016071invalid", "kilometers")},
-                new Object[]{new RequestData(25544, Arrays.asList("1640016071", "1640079222"), 400, "Invalid Unit Provided", "randomUnit")}
+                new Object[]{new RequestData(25544, Arrays.asList("1640016071", "1640079222"), 400, "Invalid Unit Provided", "randomUnit")} // Issue: Valid Response is returned even though unit is invalid.
         };
     }
 
@@ -52,10 +50,61 @@ public class PositionsTest extends BaseTest {
         verifySatellitePositionResponse(units, satellite.getId(), timeStamps, positionsResponses);
     }
 
+    @Test
+    public void verifyPositionDataForMultipleTimeStamps(){
+        SatelliteRequest satelliteRequest = new SatelliteRequest();
+        SatelliteResponse satellite = satelliteRequest.getSatelliteResponse(version);
+
+        //Get Satellite Data by ID
+        String units = null;
+        List<PositionsResponse> expectedPositionsResponses = getExpectedPositions(satelliteRequest, version, satellite, null);
+        List<String> timeStamps = getTimeStamps(expectedPositionsResponses);
+
+        PositionsRequest positionsRequest = new PositionsRequest();
+        List<PositionsResponse> positionsResponses = positionsRequest.getSatellitePositionsResponse(version, satellite, timeStamps, null);
+        verifyPositionsResponseWithSatelliteData(expectedPositionsResponses, positionsResponses);
+    }
+
+    @Test
+    public void verifyPositionDataForDuplicateTimeStamps(){
+        SatelliteRequest satelliteRequest = new SatelliteRequest();
+        SatelliteResponse satellite = satelliteRequest.getSatelliteResponse(version);
+        //Get Satellite Data by ID
+        String units = null;
+        List<String> timeStamps = Arrays.asList("1640016071", "1640016071");
+        PositionsRequest positionsRequest = new PositionsRequest();
+        List<PositionsResponse> positionsResponses = positionsRequest.getSatellitePositionsResponse(version, satellite, timeStamps, null);
+        verifyPositionsResponseWithSatelliteDataForDuplicateTimeStamps(positionsResponses, new HashSet<>(timeStamps));
+    }
+
+    private void verifyPositionsResponseWithSatelliteDataForDuplicateTimeStamps(List<PositionsResponse> positionsResponses, Set<String> timestamps) {
+        Assert.assertEquals(positionsResponses.size(), timestamps.size(), "size should be same as unique timestamps size");
+    }
+
+    private void verifyPositionsResponseWithSatelliteData(List<PositionsResponse> expectedPositionsResponses, List<PositionsResponse> positionsResponses) {
+        SoftAssert softAssert = new SoftAssert();
+        for(int i=0; i <expectedPositionsResponses.size(); i++){
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getTimestamp(), positionsResponses.get(0).getTimestamp(), "Position Responses timestamp should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getLongitude(), positionsResponses.get(0).getLongitude(), "Position Responses getLongitude should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getLatitude(), positionsResponses.get(0).getLatitude(), "Position Responses latitide should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getDaynum(), positionsResponses.get(0).getDaynum(), "Position Responses getDaynum should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getSolar_lat(), positionsResponses.get(0).getSolar_lat(), "Position Responses getSolar_lat should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getSolar_lon(), positionsResponses.get(0).getSolar_lon(), "Position Responses getSolar_lon should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getUnits(), positionsResponses.get(0).getUnits(), "Position Responses getUnits should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getAltitude(), positionsResponses.get(0).getAltitude(), "Position Responses getAltitude should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getFootprint(), positionsResponses.get(0).getFootprint(), "Position Responses getFootprint should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getVisibility(), positionsResponses.get(0).getVisibility(), "Position Responses getVisibility should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getId(), positionsResponses.get(0).getId(), "Position Responses getVisibility should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getTimestamp(), positionsResponses.get(0).getTimestamp(), "Position Responses timestamp should be same for a given TimeStamp from both the APIs at index: " + i);
+            softAssert.assertEquals(expectedPositionsResponses.get(0).getVelocity(), positionsResponses.get(0).getVelocity(), "Position Responses getVelocity should be same for a given TimeStamp from both the APIs at index: " + i);
+        }
+        softAssert.assertAll();
+    }
+
     @Test(dataProvider = "invalidData")
     private void verifyErrorForSatellitePosition(RequestData requestData){
         String version = "v1";
-        List<String> timeStampList = new ArrayList<String>(requestData.getTimestamps());
+        List<String> timeStampList = requestData.getTimestamps();
         PositionsRequest positionsRequest = new PositionsRequest();
         Response response = positionsRequest.getSatellitePositionById(version, requestData.getId(), timeStampList, requestData.getUnits());
         verifyErrorsForPositionRequest(requestData, response);
@@ -84,5 +133,4 @@ public class PositionsTest extends BaseTest {
         verifyUnitsInResponse(units, positionsResponses, softAssert);
         softAssert.assertAll();
     }
-
 }
