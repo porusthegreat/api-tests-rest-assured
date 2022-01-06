@@ -20,6 +20,8 @@
         * Ex: 
           * 1. https://api.wheretheiss.at/v1/satellites/25544X255443/tles
           * 2. https://api.wheretheiss.at/v1/satellites/25544X255443/positions?timestamps=1436029892,1436029892,1436029892&units=miles
+
+* Error message shown when input of long list of timestamps provided, is not customized. The error can be shown as "Provide a max of 5 timestamps", for example.
   
 
 **Documentation Improvement:**
