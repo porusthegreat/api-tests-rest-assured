@@ -7,11 +7,11 @@
 6. Run command `mvn clean test`
 
 **Issues Faced**: (Convention used: FileName#LineNumber)
-* PositionsTest.java#34 :: Position Response returns valid response with Units as miles, when an invalid unit provided with units in response as miles.
+* PositionsTest.java#35 :: Position Response returns valid response with Units as miles, when an invalid unit provided with units in response as miles.
     * API Improvement: Error Handling. The API should throw 400 error with message "Invalid Unit Provided".
     * Documentation Improvement: If no other units are handled, mention invalid unit will be defaulted to Kilometers
   
-* PositionsTest.java#69 :: Providing same timestamp multiple times, returns multiple objects for each timestamp.
+* PositionsTest.java#70 :: Providing same timestamp multiple times, returns multiple objects for each timestamp.
     * Improvement: get unique timestamps from request and return response for only those time stamps. Duplicate objects need not be returned
 
 **Documentation Improvement:**
