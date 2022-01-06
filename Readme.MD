@@ -9,13 +9,13 @@
 **Issues Faced**: (Convention used: FileName#LineNumber)
 * PositionsTest.java#35 :: Position Response returns valid response with Units as miles, when an invalid unit provided with units in response as miles.
     * API Improvement: Error Handling. The API should throw 400 error with message "Invalid Unit Provided".
-    * Documentation Improvement: If no other units are handled, mention invalid unit will be defaulted to Kilometers
+    * Documentation Improvement: If no other units are handled, mention invalid unit will be defaulted to Kilometers.
   
 * PositionsTest.java#70 :: Providing same timestamp multiple times, returns multiple objects for each timestamp.
-    * Improvement: get unique timestamps from request and return response for only those time stamps. Duplicate objects need not be returned
+    * Improvement: get unique timestamps from request and return response for only those time stamps. Duplicate objects need not be returned.
   
-* Passing invalid Satellite ID returns valid response with wrong satellite ID of ISS, where first set of string matches the ISS ID in **TLE** request
-    * Validation for valid satellite ID can be added
+* Passing invalid Satellite ID returns valid response with wrong satellite ID of ISS, where first set of string matches the ISS ID in **TLE** request.
+    * Validation for valid satellite ID can be added.
     * This will result in improper responses, if multiple satellites need to be tracked.
         * Ex: 
           * 1. https://api.wheretheiss.at/v1/satellites/25544X255443/tles
@@ -24,5 +24,5 @@
 
 **Documentation Improvement:**
 
-* Would prefer swagger as documentation will be auto-generated document from an API definition
-* Also it allows us to try the API right in the documentation page instead of copying the request to postman
+* Would prefer swagger as documentation will be auto-generated document from an API definition.
+* Also, it allows us to try the API right in the documentation page instead of copying the request to postman.
