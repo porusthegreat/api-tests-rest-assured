@@ -1,30 +1,9 @@
-**Steps to Run:**
+# A sample Rest API Test Automation framework built in Java, TestNG and RestAssured.io
+
+## Steps to Run:
 1. Install Java8 for the platform (https://www.oracle.com/java/technologies/downloads/)
 2. Install Maven 3.6.3 (https://maven.apache.org/docs/3.6.3/release-notes.html)
 3. Install git and setup ssh access in your local machine using https://docs.github.com/en/authentication/connecting-to-github-with-ssh
 4. Clone the repo using `git clone git@github.com:purush087/wtiaTests.git`
 5. Run command `mvn clean install`
 6. Run command `mvn clean test`
-
-**Issues Faced**: (Convention used: FileName#LineNumber)
-* PositionsTest.java#35 :: Position Response returns valid response with Units as miles, when an invalid unit provided with units in response as miles.
-    * API Improvement: Error Handling. The API should throw 400 error with message "Invalid Unit Provided".
-    * Documentation Improvement: If no other units are handled, mention invalid unit will be defaulted to Kilometers.
-  
-* PositionsTest.java#70 :: Providing same timestamp multiple times, returns multiple objects for each timestamp.
-    * Improvement: get unique timestamps from request and return response for only those time stamps. Duplicate objects need not be returned.
-  
-* Passing invalid Satellite ID returns valid response with wrong satellite ID of ISS, where first set of string matches the ISS ID in **TLE** request.
-    * Validation for valid satellite ID can be added.
-    * This will result in improper responses, if multiple satellites need to be tracked.
-        * Ex: 
-          * 1. https://api.wheretheiss.at/v1/satellites/25544X255443/tles
-          * 2. https://api.wheretheiss.at/v1/satellites/25544X255443/positions?timestamps=1436029892,1436029892,1436029892&units=miles
-
-* Error message shown when input of long list of timestamps provided, is not customized. The error can be shown as "Provide a max of 5 timestamps", for example.
-  
-
-**Documentation Improvement:**
-
-* Would prefer swagger as documentation will be auto-generated document from an API definition.
-* Also, it allows us to try the API right in the documentation page instead of copying the request to postman.
